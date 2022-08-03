@@ -1,5 +1,14 @@
 {% extends 'main.html'%}
 
 {% block content%}
-<p>Single Page here</p>
+{{project.title}}
+<hr>
+{%for tag in project.tags.all%}
+<span style="border:1px solid grey">
+    {{tag}}
+</span>
+{%endfor%}
+<hr>
+{{project.description}}
+
 {% endblock %}
