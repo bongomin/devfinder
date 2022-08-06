@@ -19,7 +19,8 @@ def createProject(request):
     form = ProjectForm()
     if request.method == 'POST':
         data = request.POST
-        form = ProjectForm(data)
+        postFiles = request.FILES
+        form = ProjectForm(data, postFiles)
 
         if form.is_valid():
             form.save()
@@ -33,7 +34,8 @@ def updateProject(request,pk):
     form = ProjectForm(instance=project)
     if request.method == 'POST':
         data = request.POST
-        form = ProjectForm(data,instance=project)
+        postFiles = request.FILES
+        form = ProjectForm(data, postFiles, instance=project)
 
         if form.is_valid():
             form.save()

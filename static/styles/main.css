@@ -1,13 +1,18 @@
-body {
-    background-color: red;
+/* body {
+    background-color: blue;
+} */
+.logo {
+    width: 150px;
 }
 
+.dev-logo {
+    font-size: 40px;
+    font-weight: bold;
+ }
+
 h1 {
-    color: red;
+    color: rgb(22, 9, 133);
     size: 20px;
 }
 
-.danny {
-    background-color: red;
-}
 

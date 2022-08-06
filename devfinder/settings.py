@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-!a66*pi$@z)xue0!d^5(n2*_!x$)pv7zc-a7#126$u2g+pfg_=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -40,6 +40,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'devfinder.urls'
@@ -116,6 +119,12 @@ MEDIA_URL = '/images/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+# configutation for upload directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+# this handles handling static files in production / automatically creates staticfiles
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
