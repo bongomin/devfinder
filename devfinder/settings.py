@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     # this can be imported as  name of project too
     # 'projects',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
