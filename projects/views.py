@@ -4,6 +4,7 @@ from django.shortcuts import render
 from .models import Project
 from .forms import ProjectForm
 
+from django.contrib.auth.decorators import login_required
 
 def projects(request):
     projects = Project.objects.all()
@@ -14,7 +15,7 @@ def project(request, pk):
     projectobj = Project.objects.get(id=pk)
     tags = projectobj.tags.all()
     return render(request, 'projects/singlepage.html', {'project': projectobj, 'tags': tags})
-
+@login_required(login_url='login')
 def createProject(request):
     form = ProjectForm()
     if request.method == 'POST':
@@ -29,6 +30,7 @@ def createProject(request):
     context = {'form': form}
     return render(request,'projects/project_form.html', context)
 
+@login_required(login_url='login')
 def updateProject(request,pk):
     project = Project.objects.get(id=pk)
     form = ProjectForm(instance=project)
@@ -44,6 +46,7 @@ def updateProject(request,pk):
     context = {'form': form}
     return render(request,'projects/project_form.html', context)
 
+@login_required(login_url='login')
 def deleteProject(request,pk):
     project = Project.objects.get(id=pk)
     if request.method == 'POST':
