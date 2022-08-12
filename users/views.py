@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate,logout
 from django.contrib.auth.models import User
+from .forms import customUserCreationForm
 from .models import Profile
 
 from django.contrib import messages
 
 
 def loginUser(request):
+    page = 'login'
     if request.user.is_authenticated:
         return redirect('profiles')
     if request.method == 'POST': 
@@ -28,13 +30,36 @@ def loginUser(request):
         else:
             messages.error(request, 'User name or password is Incorrect')
 
-    return render(request, 'users/login_register.html')
+    return render(request, 'users/login_register.html', {'page': page})
 
 
 def logoutUser(request):
     logout(request)
     messages.error(request, 'User logged out !!!')
     return redirect('login')
+
+def registerUser(request):
+    page = 'register'
+    form = customUserCreationForm()
+
+    if request.method == 'POST':
+        form = customUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+
+            messages.success(request, 'User created successfully')
+            login(request, user)
+            return redirect('profiles')
+
+        else:
+            messages.error(request, 'Error occured , user not created !')
+    context ={
+        'page': page,
+        'form': form
+    }
+    return render(request, 'users/login_register.html', context)
 
 
 def Profiles(request):
