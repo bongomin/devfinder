@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate,logout
 from django.contrib.auth.models import User
-from .forms import customUserCreationForm
+from .forms import customUserCreationForm, ProfileForm
 from .models import Profile
 
 from django.contrib.auth.decorators import login_required
@@ -53,7 +53,7 @@ def registerUser(request):
 
             messages.success(request, 'User created successfully')
             login(request, user)
-            return redirect('profiles')
+            return redirect('edit-account')
 
         else:
             messages.error(request, 'Error occured , user not created !')
@@ -98,5 +98,22 @@ def userAccount(request):
         }
 
     return render(request, 'users/user-account.html', context)
+
+
+@login_required(login_url='login')
+def editAccount(request):
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+
+            return redirect('account')
+    
+    context = {'form': form}
+    return render(request, 'users/profile_edit.html', context)
+
 
 
